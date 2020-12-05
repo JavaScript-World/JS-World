@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>時計</title>
+        <style>
+            html,body{
+                background-color: black;
+                color: white;
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                overflow: hidden;
+            }
+            .main {
+                position :absolute;
+                top: 50%;
+                left: 50%;
+                width: 732px;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                user-select: none;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                padding: 0;
+                zoom: 0.5;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <div class=year" style="height:200px;width:200px;margin:20px; background-color:black; float:left; position: relative; border: 2px #ffffff solid;"><p id="y" style="width:100%;height:0%;background-color: #7DCDF3; margin: 0; bottom: 0;position: absolute;"><p id="y_int" style="margin: 0; top: 50%; left: 50% ;position: absolute; text-align: center; transform:translate(-50%,-50%); font-size:80px;"></p></div>
+            <div class=month" style="height:200px;width:200px;margin:20px; background-color:black; float:left; position: relative; border: 2px #ffffff solid;"><p id="m" style="width:100%;height=0%;background-color: #F09EC1; margin: 0; bottom: 0;position: absolute;"><p id="m_int" style="margin: 0; top: 50%; left: 50% ;position: absolute; text-align: center; transform:translate(-50%,-50%); font-size:100px;"></p></div>
+            <div class=second" style="height:200px;width:200px;margin:20px; background-color:black; float:left; position: relative; border: 2px #ffffff solid;"><p id="d" style="width:100%;height=0%;background-color: #FFF798; margin: 0; bottom: 0;position: absolute;"><p id="d_int" style="margin: 0; top: 50%; left: 50% ;position: absolute; text-align: center; transform:translate(-50%,-50%); font-size:100px;"></p></div>
+            <div class=hours" style="height:200px;width:200px;margin:20px; background-color:black; float:left; position: relative; border: 2px #ffffff solid;"><p id="h" style="width:100%;height=0%;background-color: #8E81BC; margin: 0; bottom: 0;position: absolute;"><p id="h_int" style="margin: 0; top: 50%; left: 50% ;position: absolute; text-align: center; transform:translate(-50%,-50%); font-size:100px;"></p></div>
+            <div class=minute" style="height:200px;width:200px;margin:20px; background-color:black; float:left; position: relative; border: 2px #ffffff solid;"><p id="mi" style="width:100%;height=0%;background-color: #88C897; margin: 0; bottom: 0;position: absolute;"><p id="mi_int" style="margin: 0; top: 50%; left: 50% ;position: absolute; text-align: center; transform:translate(-50%,-50%); font-size:100px;"></p></div>
+            <div class=second" style="height:200px;width:200px;margin:20px; background-color:black; float:left; position: relative; border: 2px #ffffff solid;"><p id="s" style="width:100%;height=0%;background-color: #F29A75; margin: 0; bottom: 0;position: absolute;"><p id="s_int" style="margin: 0; top: 50%; left: 50% ;position: absolute; text-align: center; transform:translate(-50%,-50%); font-size:100px;"></p></div>
+        </div>
+        <script type="text/javascript">
+            window.onload = function(){
+                scaleset();
+                setInterval("main()", 1);
+            }
+            function main(){
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var day = date.getDate();
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var second = date.getSeconds();
+                var yearstart = new Date(year, 0, 1, 0, 0, 0, 0);
+                var yearend = new Date(year + 1, 0, 1, 0, 0, 0, 0);
+                document.getElementById('y').style.height = (date - yearstart) / ((yearend - yearstart)) * 100 + "%";
+                var monthstart = new Date(year, month - 1, 1, 0, 0, 0, 0);
+                if(month > 10){
+                    var monthend = new Date(year + 1, 0, 1, 0, 0, 0, 0);
+                }else{
+                    var monthend = new Date(year, month, 1, 0, 0, 0, 0);
+                }
+                var daystart = new Date(year, month-1, day, 0, 0, 0, 0);
+                document.getElementById('m').style.height = (date - monthstart) / ((monthend - monthstart)) * 100 + "%";
+                document.getElementById('d').style.height = (date - daystart) / 864000 + "%";
+                document.getElementById('h').style.height = ((date % 3600000)) / 36000 + "%";
+                document.getElementById('mi').style.height = ((date % 60000)) / 600 + "%";
+                document.getElementById('s').style.height = ((date % 1000)) / 10 + "%";
+                
+                document.getElementById('y_int').innerHTML = year;  
+                document.getElementById('m_int').innerHTML = month;                            
+                document.getElementById('d_int').innerHTML = day;
+                document.getElementById('h_int').innerHTML = hours;                            
+                document.getElementById('mi_int').innerHTML = minutes;
+                document.getElementById('s_int').innerHTML = second;
+            }
+            window.addEventListener( 'resize', function() {
+                scaleset();
+            }, false );
+            function scaleset(){
+                var c_w = document.body.clientWidth;
+                var c_h = document.body.clientHeight;
+                var scale = ((c_w + 700)  / 1080);
+                if((366 * scale) + 20 > c_w){
+                    scale = (c_w - (c_w * 0.05464480874)) / 366;
+                }
+                if((224 * scale) + 20 > c_h){
+                    scale = (c_h - (c_h * 0.08928571428)) / 224;
+                }
+                if(scale > 2){
+                    scale = 2;   
+                }
+                document.documentElement.style.webkitTransform = "scale("+ scale + ")";
+            }
+        </script>
+    </body>
+</html>
