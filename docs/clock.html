@@ -27,6 +27,7 @@
                 zoom: 0.5;
             }
         </style>
+        <meta charset="UTF-8">
     </head>
     <body>
         <div class="main">
@@ -84,7 +85,9 @@
                     scale = (c_w - (c_w * 0.05464480874)) / 366;
                 }
                 if((224 * scale) + 20 > c_h){
-                    scale = (c_h - (c_h * 0.08928571428)) / 224;
+                    if(scale > (c_h - (c_h * 0.08928571428)) / 224){
+                        scale = (c_h - (c_h * 0.08928571428)) / 224;
+                    }
                 }
                 if(scale > 2){
                     scale = 2;   
